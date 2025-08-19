@@ -19,7 +19,18 @@ AVATAR_COLORS = ["1abc9c","3498db","9b59b6","e74c3c","f39c12","2ecc71"]
 logging.basicConfig(level=logging.DEBUG)
 
 # ---------------- Firebase Init ----------------
-cred = credentials.Certificate("serviceAccountKey.json")
+# ---------------- Firebase Init ----------------
+import json
+
+firebase_key = os.getenv("FIREBASE_KEY")
+
+if firebase_key:
+    # Railway pe JSON env se
+    cred = credentials.Certificate(json.loads(firebase_key))
+else:
+    # Local development ke liye file se
+    cred = credentials.Certificate("serviceAccountKey.json")
+
 firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://bharat-id-default-rtdb.firebaseio.com',
     'storageBucket': 'bharat-id.appspot.com'
