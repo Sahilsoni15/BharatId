@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - BharatID</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+<style>
+    @media (prefers-color-scheme: dark) {
+        body {
+            background-color: #202124;
+            color: #e8eaed;
+        }
+        .card {
+            background-color: #171717;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+        }
+        .left-side {
+            background-color: #1e1e1e;
+        }
+        .right-side::before {
+            background-color: #3c4043;
+        }
+        input[type="text"], input[type="password"] {
+            border: 1px solid #5f6368;
+            background-color: #303134;
+            color: #e8eaed;
+        }
+        .show-password {
+            color: #bdc1c6;
+        }
+        p.subtitle {
+            color: #bdc1c6;
+        }
+        .flash-messages {
+            color: #f28b82;
+        }
+        .footer a {
+            color: #8ab4f8;
+        }
+    }
+
+    @media (prefers-color-scheme: light) {
+        body {
+            background-color: #f5f5f5;
+            color: #202124;
+        }
+        .card {
+            background-color: #ffffff;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        }
+        .left-side {
+            background-color: #f8f9fa;
+        }
+        .right-side::before {
+            background-color: #dadce0;
+        }
+        input[type="text"], input[type="password"] {
+            border: 1px solid #dadce0;
+            background-color: #ffffff;
+            color: #202124;
+        }
+        .show-password {
+            color: #5f6368;
+        }
+        p.subtitle {
+            color: #5f6368;
+        }
+        .flash-messages {
+            color: #d93025;
+        }
+        .footer a {
+            color: #1a73e8;
+        }
+    }
+
+    body {
+        font-family: 'Roboto', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .card {
+        display: flex;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 850px;
+        min-height: 360px;
+        overflow: hidden;
+    }
+
+    /* Left Panel */
+    .left-side {
+        flex: 1;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding-top: 40px;
+    }
+
+    .logo {
+        font-size: 36px;
+        font-weight: 700;
+        color: #1a73e8;
+        margin-bottom: 20px;
+    }
+
+    h2 {
+        margin: 0 0 8px 0;
+        font-weight: 500;
+        font-size: 26px;
+    }
+
+    p.subtitle {
+        margin: 0;
+        font-size: 15px;
+        color: #bdc1c6;
+    }
+
+    /* Right Panel */
+    .right-side {
+        flex: 1.2;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+    }
+
+    .right-side::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 10%;
+        bottom: 10%;
+        width: 1px;
+        background-color: #3c4043;
+    }
+
+    input[type="text"], input[type="password"] {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 15px;
+        border-radius: 6px;
+        border: 1px solid #5f6368;
+        background-color: #303134;
+        color: #e8eaed;
+        font-size: 14px;
+        outline: none;
+    }
+
+    input:focus {
+        border-color: #1a73e8;
+        box-shadow: 0 0 0 3px rgba(26,115,232,0.3);
+    }
+
+    .show-password {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        font-size: 14px;
+        color: #bdc1c6;
+    }
+
+    .show-password input {
+        margin-right: 8px;
+    }
+
+    .btn-next {
+        width: 100%;
+        background-color: #1a73e8;
+        color: #fff;
+        border: none;
+        padding: 12px;
+        font-size: 15px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: background 0.25s, box-shadow 0.25s;
+    }
+
+    .btn-next:hover {
+        background-color: #1669c1;
+        box-shadow: 0 4px 10px rgba(26,115,232,0.4);
+    }
+
+    .footer {
+        margin-top: 10px;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .footer a {
+        color: #8ab4f8;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .footer a:hover {
+        text-decoration: underline;
+    }
+
+    .flash-messages {
+        color: #f28b82;
+        font-size: 13px;
+        margin-bottom: 10px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .card {
+            flex-direction: column;
+        }
+
+        .left-side, .right-side {
+            flex: none;
+            width: 100%;
+            padding: 25px;
+            align-items: center;
+            text-align: center;
+        }
+
+        .right-side::before {
+            display: none;
+        }
+
+        .logo {
+            font-size: 32px;
+        }
+
+        h2 {
+            font-size: 22px;
+        }
+    }
+</style>
+</head>
+<body>
+    <div class="card">
+        <!-- Left Side -->
+        <div class="left-side">
+            <div class="logo">BharatID</div>
+            <h2>Sign in</h2>
+            <p class="subtitle">Use your BharatID account</p>
+        </div>
+
+        <!-- Right Side -->
+        <div class="right-side">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="flash-messages">
+                {% for message in messages %}
+                <div>{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
+
+            <form method="POST">
+                <input type="text" id="email" name="email" required placeholder="Email or username">
+                <input type="password" id="password" name="password" required placeholder="Password">
+
+                <label class="show-password">
+                    <input type="checkbox" id="showPassword" onclick="togglePassword()"> Show password
+                </label>
+
+                <button type="submit" class="btn-next">Sign in</button>
+            </form>
+
+            <div class="footer">
+                <a href="/register">Create account</a>
+            </div>
+        </div>
+    </div>
+
+<script>
+function togglePassword() {
+    const pwd = document.getElementById('password');
+    const check = document.getElementById('showPassword');
+    pwd.type = check.checked ? 'text' : 'password';
+}
+</script>
+</body>
+</html>
