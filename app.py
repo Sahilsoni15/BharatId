@@ -288,6 +288,52 @@ def update_profile():
     user_ref.update(updates)
     flash("Profile updated successfully!")
     return redirect(url_for("home"))
+@app.route("/auth/callback")
+def auth_callback():
+    # Bharat ID popup login se email aur token milenge
+    email = request.args.get("email")
+    token = request.args.get("token")  # optional, if you use
+
+    if not email:
+        flash("Login failed! No email returned.")
+        return redirect(url_for("popup_login"))
+
+    # Firebase se user fetch karo
+    key = email_to_key(email)
+    user = db.reference(f"users/{key}").get()
+    if not user:
+        flash("User not found in DB.")
+        return redirect(url_for("popup_login"))
+
+    # Flask session create
+    session_id = str(uuid.uuid4())
+    session["session_id"] = session_id
+    session["user_email"] = email
+    session["user_name"] = user.get("first_name","")
+    session.permanent = True
+
+    # Firebase me session save
+    session_info = {
+        "device_name": request.user_agent.platform or "Unknown device",
+        "browser": request.user_agent.browser or "Unknown browser",
+        "os": request.user_agent.platform or "Unknown OS",
+        "ip": request.remote_addr or "127.0.0.1",
+        "last_active": datetime.now().isoformat(timespec="seconds"),
+        "active": True,
+    }
+    db.reference(f"users/{key}/sessions/{session_id}").set(session_info)
+
+    # Parent website ko data bhejne ke liye JS
+    return f"""
+    <script>
+        window.opener.postMessage({{
+            type: "login-success",
+            email: "{email}",
+            name: "{user.get('first_name','')}"
+        }}, window.opener.location.origin);
+        window.close();
+    </script>
+    """
 
 # ---------------- Run App ----------------
 if __name__ == "__main__":
